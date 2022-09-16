@@ -10,11 +10,11 @@
 </head>
 
 <body>
-    <my-button label="Push me baby"></my-button>
-    <my-button label="Push a second time"></my-button>
-    <my-button label="Pull me baby"></my-button>
+    <my-button label="Push me sir !" as-atom></my-button>
+    <my-button label="Push a second time sir !"></my-button>
+    <my-button label="Too weak, PUSH again !"></my-button>
     <center>
-        <div id="body_text"></div>
+        <p id="body_text"></p>
     </center>
     <script>
         const template = document.createElement('template');
@@ -22,6 +22,7 @@
   <style>
     .container {
       padding: 8px;
+      margin-top:2rem;
       display:flex;
       justify-content:center;
     }
@@ -52,13 +53,34 @@
 `;
         let allButtons = document.querySelectorAll('my-button');
         document.querySelector('my-button').onClick = (value) => console.log(value);
-        
+
         for (button of allButtons) {
             button.onClick = (value) => {
                 console.log(value)
                 let body_text = document.querySelector('#body_text')
+                let img = document.createElement('img')
+                let images = [
+                    'https://images.pexels.com/photos/13527050/pexels-photo-13527050.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                    "https://images.pexels.com/photos/4035493/pexels-photo-4035493.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    "https://images.pexels.com/photos/4035493/pexels-photo-4035493.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    "https://images.pexels.com/photos/4035493/pexels-photo-4035493.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    "https://images.pexels.com/photos/13350114/pexels-photo-13350114.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+                    "https://images.unsplash.com/photo-1663183538216-571795cd64ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80",
+                    "https://images.unsplash.com/photo-1663183538216-571795cd64ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80",
+                    "https://images.unsplash.com/photo-1663249741820-81661f44cc23?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
+                    "https://images.unsplash.com/photo-1663249741820-81661f44cc23?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
+                    "https://images.unsplash.com/photo-1663249741820-81661f44cc23?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
+                    "https://images.unsplash.com/photo-1663145034614-09992ac279b9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOTZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+                    "https://images.unsplash.com/photo-1663145034614-09992ac279b9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOTZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+
+                ]
                 body_text.innerHTML = value;
                 body_text.style = 'font-size: 22px;font-family:Georgia,Verdana,Arial,sans-serif;background-color:chartreuse;width:14rem;min-height:40px;font-weight:bold;border-radius:5px;padding:4rem;margin-top:20px;';
+                let randIndex = Math.floor(Math.random() * 12);
+                console.log(randIndex);
+                img.setAttribute('src', images[randIndex])
+                img.style = 'width:14rem;margin-top:20px;border-radius:5px;'
+                body_text.appendChild(img)
 
             }
         }
@@ -71,10 +93,21 @@
                 this._shadowRoot.appendChild(template.content.cloneNode(true));
                 // Séléction 
                 this.$button = this._shadowRoot.querySelector('button');
+                this.$container = document.querySelector('div');
                 this.$button.addEventListener('click', () => {
                     this.onClick(this.label);
                 });
             }
+
+            connectedCallback() {
+                if (this.hasAttribute('as-atom')) {
+                    console.log("Ca n'éxiste pas");
+                    // this.$container.style.padding = '0px';
+                    
+                }
+                console.log(this.$container);
+            }
+
             // transform le label en attribut observé
             static get observedAttributes() {
                 return ['label'];
@@ -95,7 +128,7 @@
         // L'instanciation de ma classe button définit la balise my-button
         window.customElements.define('my-button', Button);
 
-        function playT_RexRoar(){
+        function playT_RexRoar() {
             new Audio("https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3").play();
         }
     </script>
