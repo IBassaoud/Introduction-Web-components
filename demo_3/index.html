@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="mtp.png">
+    <title>1st Web Component</title>
+</head>
+
+<body>
+    <my-button label="Push me baby"></my-button>
+    <my-button label="Push a second time"></my-button>
+    <my-button label="Pull me baby"></my-button>
+    <center>
+        <div id="body_text"></div>
+    </center>
+    <script>
+        const template = document.createElement('template');
+        template.innerHTML = `
+  <style>
+    .container {
+      padding: 8px;
+      display:flex;
+      justify-content:center;
+    }
+    button {
+      display: block;
+      overflow: hidden;
+      position: relative;
+      padding: 0 16px;
+      font-size: 16px;
+      font-weight: bold;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      outline: none;
+      width: 14rem;
+      height: 40px;
+      box-sizing: border-box;
+      border: 2px solid #a1a1a1;
+      border-radius: 5px;
+      background: #ffffff;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0, 0.05), 0 2px 8px 0 rgba(161,161,161, 0.4);
+      color: #363636;
+    }
+  </style>
+  <div class="container">
+    <button>Label</button>
+  </div>
+`;
+        let allButtons = document.querySelectorAll('my-button');
+        document.querySelector('my-button').onClick = (value) => console.log(value);
+        
+        for (button of allButtons) {
+            button.onClick = (value) => {
+                console.log(value)
+                let body_text = document.querySelector('#body_text')
+                body_text.innerHTML = value;
+                body_text.style = 'font-size: 22px;font-family:Georgia,Verdana,Arial,sans-serif;background-color:chartreuse;width:14rem;min-height:40px;font-weight:bold;border-radius:5px;padding:4rem;margin-top:20px;';
+
+            }
+        }
+
+        class Button extends HTMLElement {
+            constructor() {
+                super();
+                this._shadowRoot = this.attachShadow({ mode: 'open' });
+                // Introduction du contenus du template dans le shadow root
+                this._shadowRoot.appendChild(template.content.cloneNode(true));
+                // Séléction 
+                this.$button = this._shadowRoot.querySelector('button');
+                this.$button.addEventListener('click', () => {
+                    this.onClick(this.label);
+                });
+            }
+            // transform le label en attribut observé
+            static get observedAttributes() {
+                return ['label'];
+            }
+
+            attributeChangedCallback(name, oldValue, newValue) {
+                this[name] = newValue;
+                this.render();
+            }
+
+            // le innerHTML du boutton est égale au label
+            render() {
+                return this.$button.innerHTML = this.label;
+            }
+        }
+
+
+        // L'instanciation de ma classe button définit la balise my-button
+        window.customElements.define('my-button', Button);
+
+        function playT_RexRoar(){
+            new Audio("https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3").play();
+        }
+    </script>
+</body>
+
+</html>

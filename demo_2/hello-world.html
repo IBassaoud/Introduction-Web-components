@@ -1,0 +1,21 @@
+<template>
+    Hello World !
+</template>
+
+<script>
+    let template = document.currentScript.ownerDocument.querySelector('template');
+
+    customElements
+        .define(
+            'hello-world',
+            class extends HTMLElement {
+                constructor() {
+                    super();
+                    // Attache cette node au shadow DOM 
+                    let sh = this.attachShadow( {mode:'open'} );
+                    sh.appendChild(document.importNode(template.content, true));
+                };
+            }
+        )
+</script>
+

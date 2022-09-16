@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1st Web Component</title>
+</head>
+<body>
+    <hello-world>
+
+    </hello-world>
+<script>
+    class MonPrototype extends HTMLElement
+    {
+        constructor(){
+            // we ALWAYS call!!! the parent class
+            super();
+            let monTexte = document.createTextNode("Hello World !");
+            this.appendChild(monTexte);
+            this.setAttribute(
+                'style', 
+                'color:red;font-family:sans-serif;font-size:22px;font-weight:bold;')
+            this.setAttribute('id', 'hello-world-1');
+        } // End of constructor
+    }
+    // Le script va instancier la balise avec la classe MonPrototype
+    customElements.define('hello-world', MonPrototype);
+</script>
+</body>
+</html>

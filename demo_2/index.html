@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="import" href="hello-html.html">
+    <title>1st Web Component</title>
+</head>
+<body>
+    <hello-world>
+
+    </hello-world>
+
+    <template>
+        Hello World !
+    </template>
+    
+    <script>
+        let template = document.currentScript.ownerDocument.querySelector('template');
+    
+        customElements
+            .define(
+                'hello-world',
+                class extends HTMLElement {
+                    constructor() {
+                        super();
+                        // Attache cette node au shadow DOM 
+                        let sh = this.attachShadow( {mode:'open'} );
+                        sh.appendChild(document.importNode(template.content, true));
+                    };
+                }
+            )
+    </script>
+    
+</body>
+</html>
