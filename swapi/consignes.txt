@@ -1,0 +1,4 @@
+Exercice d'application : 
+
+implémentez un web component sur la base des informations consommées sur swapi.dev
+créez des fiches thématiques incorporant les informations adéquates (voir sur la doc les thèmes possibles)

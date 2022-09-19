@@ -34,10 +34,12 @@ class TodoItem extends HTMLElement {
         this.$checkbox = this._shadowRoot.querySelector('input');
 
         this.$removeButton.addEventListener('click', (e) => {
+            // Creates the event onRemove with the index ID.
             this.dispatchEvent(new CustomEvent('onRemove', { detail: this.index }));
         });
 
         this.$checkbox.addEventListener('click', (e) => {
+            // Creates the event onToggle with the index ID.
             this.dispatchEvent(new CustomEvent('onToggle', { detail: this.index }));
         });
     }

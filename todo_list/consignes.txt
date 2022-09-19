@@ -1,0 +1,4 @@
+Surchager un item tache :
+- ajouter la date de création de la tâche
+- ajouter la durée pour accomplir la tâche
+

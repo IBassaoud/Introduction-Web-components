@@ -38,17 +38,7 @@ class TodoApp extends HTMLElement {
         this.$submitButton.addEventListener('click', this._addTodo.bind(this));
     
     }
-/* old version ... 
-    _renderTodoList() {
-        this.$todoList.innerHTML = '';
 
-        this._todos.forEach((todo, index) => {
-            let $todoItem = document.createElement('div');
-            $todoItem.innerHTML = todo.text; 
-            this.$todoList.appendChild($todoItem);
-        });
-    }
-*/
 // new version !
 _renderTodoList() {
     this.$todoList.innerHTML = '';
@@ -79,9 +69,13 @@ _renderTodoList() {
     }
 
     _addTodo() {
+        // Check If the input is not empty
         if(this.$input.value.length > 0){
+            // Add the task to the list
             this._todos.push({ text: this.$input.value, checked: false })
+            // call the method render to update the array of tasks
             this._renderTodoList();
+            // Empty the value of the input
             this.$input.value = '';
         }
     }  
@@ -92,6 +86,7 @@ _renderTodoList() {
     }
 
     _toggleTodo(e) {
+        
         const todo = this._todos[e.detail];
         this._todos[e.detail] = Object.assign({}, todo, {
             checked: !todo.checked
