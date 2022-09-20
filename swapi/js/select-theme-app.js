@@ -32,13 +32,14 @@ template.innerHTML = `
     .card_item {
         width:20%;
         min-width:300px;
-        height:400px;
         margin-top: 2rem;
         margin-left: 2rem;
         margin-right: 2rem;
         padding:15px;
         border-radius: 5px;
-        border: 2px solid red;
+        border: 2px solid rgb(79 70 229);
+        font-family: "Helvetica Neue",Helvetica,sans-serif;
+        font-weight: 500;
         display:flex;
         justify-content: center;
     }
@@ -49,10 +50,11 @@ template.innerHTML = `
     <select name="select_theme" class="select_theme">
     </select>
 </div>
-<div class="row">
-    <input type='text' placeholder="search a theme...">
+
+<div class="row cards">
 
 </div>
+
 `
 
 class SelectThemeApp extends HTMLElement {
@@ -87,8 +89,8 @@ class SelectThemeApp extends HTMLElement {
 
     _fetchData() {
         if (this.$selectMenuTheme.value != null) {
-            let selectedTheme = this.$selectMenuTheme.value;
-            fetch("https://swapi.dev/api/" + selectedTheme)
+            this.selectedTheme = this.$selectMenuTheme.value;
+            fetch("https://swapi.dev/api/" + this.selectedTheme)
                 .then(response => response.json())
                 .then(response => this._renderThemeContent(response.results))
                 .catch(err => console.log(err.message));
@@ -96,32 +98,123 @@ class SelectThemeApp extends HTMLElement {
 
     }
 
-
-
     _fetchDataSearch() {
-        let selectedTheme = this.$selectMenuTheme.value;
-        console.log(selectedTheme);
-        // Add the task to the list
-        this._todos.push({ text: this.$input.value, checked: false })
-        this._renderThemeList();
+        this.selectedTheme = this.$selectMenuTheme.value;
+        console.log(this.selectedTheme);
+
     }
 
     _renderThemeContent(data) {
         console.log(data);
-        let cardsContainer = document.createElement("div");
-        cardsContainer.classList.add("row", "cards");
-        data.forEach((element, index) => {
-            let item = document.createElement("div");
-            item.classList.add('card_item');
-            item.innerHTML = "Name : " + element.name + "<br>";
-            item.innerHTML += "Gender : " + element.gender + "<br>";
-            item.innerHTML += "Height : " + element.height + " cm<br>";
-            item.innerHTML += "Hair color : " + element.hair_color + "<br>";
-            item.innerHTML += "Eye color : " + element.eye_color + "<br>";
-            item.innerHTML += "Mass : " + element.mass + " Kg<br>";
-            cardsContainer.appendChild(item);
+        let cardsContainer = this._shadowRoot.querySelector('.cards');
+        if (this.selectedTheme == "people") {
+            cardsContainer.innerHTML = "";
+            data.forEach((element, index) => {
+                let item = document.createElement("div");
+                item.classList.add('card_item');
+                item.innerHTML = "Name : " + element.name + "<br><br>";
+                item.innerHTML += "Gender : " + element.gender + "<br><br>";
+                item.innerHTML += "Height : " + element.height + " cm<br><br>";
+                item.innerHTML += "Hair color : " + element.hair_color + "<br><br>";
+                item.innerHTML += "Eye color : " + element.eye_color + "<br><br>";
+                item.innerHTML += "Mass : " + element.mass + " Kg<br><br>";
+                cardsContainer.appendChild(item);
 
-        })
+            })
+        } else if(this.selectedTheme == "planets"){
+            cardsContainer.innerHTML = "";
+            data.forEach((element, index) => {
+                let item = document.createElement("div");
+                item.classList.add('card_item');
+                item.innerHTML = "Planet Name : " + element.name + "<br><br>";
+                item.innerHTML += "Rotation Period : " + element.rotation_period + " Hours<br><br>";
+                item.innerHTML += "Orbital Period : " + element.orbital_period + " Km/h<br><br>";
+                item.innerHTML += "Diameter : " + element.diameter + " Km<br><br>";
+                item.innerHTML += "Climate : " + element.climate + "<br><br>";
+                item.innerHTML += "Gravity : " + element.gravity + " Kg<br><br>";
+                item.innerHTML += "Terrain : " + element.terrain + " Kg<br><br>";
+                item.innerHTML += "Population : " + element.population + " Habitants<br><br>";
+                cardsContainer.appendChild(item);
+            })
+        } else if(this.selectedTheme == "planets"){
+            cardsContainer.innerHTML = "";
+            data.forEach((element, index) => {
+                let item = document.createElement("div");
+                item.classList.add('card_item');
+                item.innerHTML = "Name : " + element.name + "<br><br>";
+                item.innerHTML += "Gender : " + element.gender + "<br><br>";
+                item.innerHTML += "Height : " + element.height + " cm<br><br>";
+                item.innerHTML += "Hair color : " + element.hair_color + "<br><br>";
+                item.innerHTML += "Eye color : " + element.eye_color + "<br><br>";
+                item.innerHTML += "Mass : " + element.mass + " Kg<br><br>";
+                cardsContainer.appendChild(item);
+            })
+        } else if(this.selectedTheme == "films"){
+            cardsContainer.innerHTML = "";
+            data.forEach((element, index) => {
+                let item = document.createElement("div");
+                item.classList.add('card_item');
+                item.innerHTML = "Title : " + element.title + "<br><br>";
+                item.innerHTML += "Opening crawl : " + element.opening_crawl + "<br><br>";
+                item.innerHTML += "Director : " + element.director + "<br><br>";
+                item.innerHTML += "Producer : " + element.producer + "<br><br>";
+                item.innerHTML += "Release date : " + element.release_date + "<br><br>";
+                cardsContainer.appendChild(item);
+            })
+        } else if(this.selectedTheme == "species"){
+            cardsContainer.innerHTML = "";
+            data.forEach((element, index) => {
+                let item = document.createElement("div");
+                item.classList.add('card_item');
+                item.innerHTML = "Name : " + element.name + "<br><br>";
+                item.innerHTML += "Classification : " + element.classification + "<br><br>";
+                item.innerHTML += "Designation : " + element.designation + " cm<br><br>";
+                item.innerHTML += "Hair colors : " + element.hair_colors + "<br><br>";
+                item.innerHTML += "Eyes colors : " + element.eye_colors + "<br><br>";
+                item.innerHTML += "Average lifespan : " + element.average_lifespan + " Years<br><br>";
+                item.innerHTML += "Language : " + element.language + "<br><br>";
+                cardsContainer.appendChild(item);
+            })
+        } else if(this.selectedTheme == "vehicles"){
+            cardsContainer.innerHTML = "";
+            data.forEach((element, index) => {
+                let item = document.createElement("div");
+                item.classList.add('card_item');
+                item.innerHTML = "Name : " + element.name + "<br><br>";
+                item.innerHTML += "Model : " + element.model + "<br><br>";
+                item.innerHTML += "Manufacturer : " + element.manufacturer + " cm<br><br>";
+                item.innerHTML += "Cost in credits : " + element.cost_in_credits + " €<br><br>";
+                item.innerHTML += "Length : " + element.length + " cm<br><br>";
+                item.innerHTML += "Crew : " + element.crew + "<br><br>";
+                item.innerHTML += "Passengers : " + element.passengers + "<br><br>";
+                item.innerHTML += "Vehicle class : " + element.vehicle_class + "<br><br>";
+                cardsContainer.appendChild(item);
+            })
+        } else if(this.selectedTheme == "starships"){
+            cardsContainer.innerHTML = "";
+            data.forEach((element, index) => {
+                let item = document.createElement("div");
+                item.classList.add('card_item');
+                item.innerHTML = "Name : " + element.name + "<br><br>";
+                item.innerHTML += "Model : " + element.model + "<br><br>";
+                item.innerHTML += "Manufacturer : " + element.manufacturer + " cm<br><br>";
+                item.innerHTML += "Cost in credits : " + element.cost_in_credits + " €<br><br>";
+                item.innerHTML += "Length : " + element.length + " cm<br><br>";
+                item.innerHTML += "Maximum atmosphering speed : " + element.max_atmosphering_speed + "<br><br>";
+                item.innerHTML += "Crew : " + element.crew + "<br><br>";
+                item.innerHTML += "Passengers : " + element.passengers + "<br><br>";
+                item.innerHTML += "Cargo capacity : " + element.cargo_capacity + " People<br><br>";
+                item.innerHTML += "Consumables : " + element.consumables + "<br><br>";
+                item.innerHTML += "Hyperdrive rating : " + element.hyperdrive_rating + "<br><br>";
+                item.innerHTML += "MGLT : " + element.MGLT + "<br><br>";
+                item.innerHTML += "Starship class : " + element.starship_class + "<br><br>";
+                cardsContainer.appendChild(item);
+            })
+        } else {
+            let item = document.createElement("div");
+            item.innerHTML = "<h3>No records found</h3>";
+            cardsContainer.appendChild(item);
+        }
         this._shadowRoot.appendChild(cardsContainer)
     }
 }
